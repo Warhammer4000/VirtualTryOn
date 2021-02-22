@@ -96,8 +96,15 @@
     </div>
 
     <div class="control-buttons">
+      <input type="file"
+       id="avatar" name="avatar"
+       accept="image/png, image/jpeg"
+       onchange="loadFile(event)">
+
+
       <button id="load-photo-1">Load photo 1</button>
       <button id="load-photo-2">Load photo 2</button>
+
 
       <button id="apply-makeup-look-1">Apply makeup look 1</button>
       <button id="apply-makeup-look-2">Apply makeup look 2</button>
@@ -107,6 +114,8 @@
       <button id="download-photo">Download photo</button>
 
       <button id="redirect-video">Go to video</button>
+
+      <img id="output" style="visibility: hidden;" />	
 
     </div>
 
@@ -149,10 +158,6 @@
 
       deepAR.downloadFaceTrackingModel('lib/models-68-extreme.bin');
 
-
-      // var lastImageByteArray = null;
-      // var lastImageWidth = 0;
-      // var lastImageHeight = 0;
       var image = new Image();
 
       function processPhoto(url) {
@@ -161,34 +166,19 @@
         var loaderWrapper = document.getElementById('loader-wrapper');
         loaderWrapper.style.display = 'block';
 
-
         // load image from url
         image.src = url;
 
         image.onload = function() {
-
           deepAR.processImage(image);
-
-          // Alternative way to process image is by using processFrame method
-          // // when loaded, convert to byte array
-          // var canvas = document.createElement('canvas');
-          // var ctx = canvas.getContext('2d');
-          // canvas.width = image.width;
-          // canvas.height = image.height;
-          // ctx.drawImage(image, 0, 0);
-          // var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          // lastImageByteArray = new Uint8Array(imageData.data.buffer);
-          // lastImageHeight = image.height;
-          // lastImageWidth = image.width;
-
-          // //send the image in RGBA byte array format to DeepAR for processing
-          // deepAR.processFrame(lastImageByteArray, image.width, image.height, false);
-
-
           // hide the loading animation
           var loaderWrapper = document.getElementById('loader-wrapper');
           loaderWrapper.style.display = 'none';
         }
+      }
+
+      function loadFile(event) {
+        processPhoto(URL.createObjectURL(event.target.files[0]));              
       }
 
       document.getElementById('load-photo-1').onclick = function() {
@@ -197,6 +187,7 @@
       document.getElementById('load-photo-2').onclick = function() {
         processPhoto('./test_photos/camera2.jpg');
       }
+
       document.getElementById('apply-makeup-look-1').onclick = function() {
         // load filter         
         deepAR.switchEffect(0, 'makeup', './effects/look1', function() {
