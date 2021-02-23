@@ -189,18 +189,40 @@
       }
 
       document.getElementById('apply-makeup-look-1').onclick = function() {
-        // load filter         
-        deepAR.switchEffect(0, 'makeup', './effects/look1', function() {
-          // effect loaded, reprocess the image
-          deepAR.processImage(image);
-        });
+        // load filter  
+        fetch("https://cloud.squidex.io/api/assets/virtual-try-on/2a89f847-6518-4062-a057-84ec770029de", {
+            method: 'GET',
+            // headers: new Headers({
+            //     "Authorization": "Bearer " + token
+            // })
+        })
+        .then(response => response.blob())
+        .then(blob => {
+          var url = window.URL.createObjectURL(blob);
+          console.log(url);
+          deepAR.switchEffect(0, 'makeup', url, function() {
+            // effect loaded, reprocess the image
+            deepAR.processImage(image);
+          });
+        })       
       }
       document.getElementById('apply-makeup-look-2').onclick = function() {
         // load filter         
-        deepAR.switchEffect(0, 'makeup', './effects/look2', function() {
-          // effect loaded, reprocess the image
-          deepAR.processImage(image);
-        });
+        fetch("https://cloud.squidex.io/api/assets/virtual-try-on/aee93b1f-a211-4d29-9373-02ef57e34b46", {
+            method: 'GET',
+            // headers: new Headers({
+            //     "Authorization": "Bearer " + token
+            // })
+        })
+        .then(response => response.blob())
+        .then(blob => {
+          var url = window.URL.createObjectURL(blob);
+          console.log(url);
+          deepAR.switchEffect(0, 'makeup', url, function() {
+            // effect loaded, reprocess the image
+            deepAR.processImage(image);
+          });
+        }) 
       }
       document.getElementById('remove-makeup-filter').onclick = function() {
         // unload filter
