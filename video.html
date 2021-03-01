@@ -133,9 +133,6 @@
             <div><img class="thumb" src="thumbs/beauty.png" /></div>
             <div><img class="thumb" src="thumbs/photo1.png" /></div>
             <div><img class="thumb" src="thumbs/photo2.png" /></div>
-            <!-- <div><img class="thumb" src="thumbs/dalmatian.png" /></div>
-            <div><img class="thumb" src="thumbs/flowers.png" /></div>
-            <div><img class="thumb" src="thumbs/teddy_cigar.png" /></div> -->
         </div>
 
         <script
@@ -172,12 +169,6 @@
                 onInitialize: function () {
                     // start video immediately after the initalization, mirror = true
                     deepAR.startVideo(true);
-
-                    // or we can setup the video element externally and call deepAR.setVideoElement (see startExternalVideo function below)
-
-                    // deepAR.switchEffect(0, 'slot', './effects/beauty', function() {
-                    //   // effect loaded
-                    // });
                 },
             });
 
@@ -304,15 +295,18 @@
                                 })
                     );
                     Promise.all(effectsPromise).then((effects) => {
-                        // effects = ['./effects/none.bin', ...effects];
                         $(".effect-carousel").on(
                             "afterChange",
                             function (event, slick, currentSlide) {
-                                deepAR.switchEffect(
-                                    0,
-                                    "slot",
-                                    effects[currentSlide]
-                                );
+                                if (currentSlide === 0) {
+                                    deepAR.clearEffect("slot");
+                                } else {
+                                    deepAR.switchEffect(
+                                        0,
+                                        "slot",
+                                        effects[currentSlide - 1]
+                                    );
+                                }
                             }
                         );
                     });
