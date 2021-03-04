@@ -20,11 +20,10 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
-                align-items: center;
             }
 
             .canvas-wraper {
-                border: 10px solid rgb(255, 0, 200);
+                border: 10px solid #ff00c8;
                 display: flex;
                 flex-direction: row;
             }
@@ -88,24 +87,11 @@
             }
 
             .control-buttons {
-                width: 200px;
-            }
-
-            .control-buttons > button {
-                border: 4px solid rgb(255, 0, 200);
-                border-radius: 0px;
-                background-color: white;
-                margin: 10px 0;
-                width: 180px;
-                height: 40px;
-                font-weight: bold;
-            }
-
-            .control-buttons > button:hover {
-                border: 4px solid rgb(255, 0, 200);
-                border-radius: 0px;
-                background-color: rgb(255, 0, 200);
-                color: white;
+                display: flex;
+                flex-direction: row;
+                width: 220px;
+                justify-content: center;
+                flex-wrap: wrap;
             }
 
             #avatar {
@@ -115,34 +101,113 @@
             .load_img_description {
                 font-family: Arial, Helvetica, sans-serif;
             }
+
+            .fa-btn {
+                display: flex;
+                border: none;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: #ff00c8;
+                color: white;
+                align-items: center;
+                justify-content: center;
+                margin: 4px;
+                cursor: pointer;
+            }
+
+            .fa {
+                font-size: 30px;
+                width: 35px;
+                height: 35px;
+                text-align: center;
+                text-decoration: none;
+            }
+
+            .thumbs {
+                padding: 4px;
+            }
+
+            .category-container {
+                width: 100%;
+                padding: 10px 20px;
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="item-wraper">
-                <div class="control-buttons">
-                    <input
-                        type="file"
-                        id="avatar"
-                        name="avatar"
-                        accept="image/png, image/jpeg"
-                        onchange="loadFile(event)"
-                    />
+                <div class="left">
+                    <div class="control-buttons">
+                        <button class="fa-btn" onclick="loadPresetThumbs()">
+                            <svg
+                                aria-hidden="true"
+                                focusable="true"
+                                data-prefix="fas"
+                                data-icon="image"
+                                class="fa svg-inline--fa fa-image fa-w-16"
+                                role="img"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 336H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h404a6 6 0 0 1 6 6v276a6 6 0 0 1-6 6zM128 152c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40zM96 352h320v-80l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L192 304l-39.515-39.515c-4.686-4.686-12.284-4.686-16.971 0L96 304v48z"
+                                ></path>
+                            </svg>
+                        </button>
+                        <button class="fa-btn" id="redirect-video">
+                            <svg
+                                aria-hidden="true"
+                                focusable="false"
+                                data-prefix="fas"
+                                data-icon="video"
+                                class="fa svg-inline--fa fa-video fa-w-18"
+                                role="img"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 576 512"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M336.2 64H47.8C21.4 64 0 85.4 0 111.8v288.4C0 426.6 21.4 448 47.8 448h288.4c26.4 0 47.8-21.4 47.8-47.8V111.8c0-26.4-21.4-47.8-47.8-47.8zm189.4 37.7L416 177.3v157.4l109.6 75.5c21.2 14.6 50.4-.3 50.4-25.8V127.5c0-25.4-29.1-40.4-50.4-25.8z"
+                                ></path>
+                            </svg>
+                        </button>
+                        <label
+                            class="fa-btn file-input-label"
+                            for="file-upload"
+                        >
+                            <svg
+                                aria-hidden="true"
+                                focusable="false"
+                                data-prefix="far"
+                                data-icon="file-image"
+                                class="fa svg-inline--fa fa-file-image fa-w-12"
+                                role="img"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 384 512"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm32-48h224V288l-23.5-23.5c-4.7-4.7-12.3-4.7-17 0L176 352l-39.5-39.5c-4.7-4.7-12.3-4.7-17 0L80 352v64zm48-240c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48z"
+                                ></path>
+                            </svg>
+                        </label>
+                        <input
+                            style="display: none"
+                            type="file"
+                            id="file-upload"
+                            name="avatar"
+                            accept="image/png, image/jpeg"
+                            onchange="loadFile(event)"
+                        />
+                        <img id="output" style="visibility: hidden" />
+                    </div>
+                    <div class="category-container" id="category-container">
 
-                    <button id="load-photo-1">Load photo 1</button>
-                    <button id="load-photo-2">Load photo 2</button>
-
-                    <button id="remove-makeup-filter">
-                        Remove makeup filter
-                    </button>
-
-                    <button id="download-photo">Download photo</button>
-
-                    <button id="redirect-video">Go to video</button>
-
-                    <img id="output" style="visibility: hidden" />
+                    </div>
                 </div>
-                <div>
+                <div class="middle">
                     <div class="canvas-wraper">
                         <canvas
                             class="deepar"
@@ -157,33 +222,18 @@
                             <span class="loader"></span>
                         </div>
                     </div>
+                </div>
+                <div class="right">
                     <div
+                        id="resource-container"
                         style="
-                            width: 100%;
+                            width: 220px;
                             display: flex;
                             flex-direction: row;
                             justify-content: center;
+                            flex-wrap: wrap;
                         "
-                    >
-                        <input
-                            type="image"
-                            id="apply-makeup-look-1"
-                            src="./thumbs/photo1.png"
-                            name="look1"
-                            width="100"
-                            height="100"
-                            alt="Makeup look 1"
-                        />
-                        <input
-                            type="image"
-                            id="apply-makeup-look-2"
-                            src="./thumbs/photo2.png"
-                            name="look2"
-                            width="100"
-                            height="100"
-                            alt="Makeup look 2"
-                        />
-                    </div>
+                    ></div>
                 </div>
             </div>
         </div>
@@ -251,70 +301,165 @@
                 processPhoto(URL.createObjectURL(event.target.files[0]));
             }
 
-            document.getElementById("load-photo-1").onclick = function () {
-                processPhoto("./test_photos/camera1.jpg");
-            };
-            document.getElementById("load-photo-2").onclick = function () {
-                processPhoto("./test_photos/camera2.jpg");
+            function buildAssetUrlFromId(id) {
+                return `https://cloud.squidex.io/api/assets/virtual-try-on/${id}`;
+            }
+
+            async function loadImageFromUrl(url) {
+                let response = await fetch(url);
+                let blob = await response.blob();
+                return window.URL.createObjectURL(blob);
+            }
+
+            function buildThumbElement(id, src, onclick) {
+                return `
+                    <input
+                        class="thumbs"
+                        type="image"
+                        id="${id}"
+                        src="${src}"
+                        name="${id}"
+                        width="100"
+                        height="100"
+                        alt="Makeup look 2"
+                        onclick="${onclick}"
+                    />
+                `;
+            }
+
+            function buildCategoryElement(name) {
+                return `
+                <div style="cursor: pointer; width: 80%" id="${name}" onclick="loadPresets(this.id)">
+                    <h3 style="margin: 6px; color: hotpink">${name}</h3>
+                    <div
+                        style="
+                            width: 100%;
+                            height: 1px;
+                            background-color: gray;
+                        "
+                    ></div>
+                </div>
+                `;
+            }
+
+            const RESOURCE_TYPE_ONCLICK = {
+                image: "loadImage(this.src)",
+                icon: "applyFilter(this.id)",
             };
 
-            document.getElementById(
-                "apply-makeup-look-1"
-            ).onclick = function () {
-                // load filter
+            function appendPresetImage(id, type) {
+                let resourceContainer = document.getElementById(
+                    "resource-container"
+                );
+                loadImageFromUrl(buildAssetUrlFromId(id)).then((src) => {
+                    resourceContainer.innerHTML += buildThumbElement(
+                        id,
+                        src,
+                        RESOURCE_TYPE_ONCLICK[type]
+                    );
+                });
+            }
+
+            async function loadModels(id) {
+                return await loadImageFromUrl(buildAssetUrlFromId(id));
+            }
+
+            function clearChilds(id) {
+                document.getElementById(id).innerHTML = "";
+            }
+
+            function clearResourceContainer(id) {
+                clearChilds("resource-container");
+            }
+
+            function appendCategoryElement(categoryName) {
+                document.getElementById(
+                    "category-container"
+                ).innerHTML += buildCategoryElement(categoryName);
+            }
+
+            let isCategoryLoaded = false;
+            function loadCategories() {
+                if (isCategoryLoaded) return;
                 fetch(
-                    "https://cloud.squidex.io/api/assets/virtual-try-on/2a89f847-6518-4062-a057-84ec770029de",
-                    {
-                        method: "GET",
-                        // headers: new Headers({
-                        //     "Authorization": "Bearer " + token
-                        // })
-                    }
+                    "https://cloud.squidex.io/api/content/virtual-try-on/makeup-categories/"
                 )
-                    .then((response) => response.blob())
-                    .then((blob) => {
-                        var url = window.URL.createObjectURL(blob);
-                        console.log(url);
-                        deepAR.switchEffect(0, "makeup", url, function () {
-                            // effect loaded, reprocess the image
-                            deepAR.processImage(image);
+                    .then((response) => response.json())
+                    .then((data) => {
+                        clearChilds("category-container");
+                        data.items.map((item) => {
+                            let categoryName = item.data.name.iv;
+                            appendCategoryElement(categoryName);
                         });
                     });
-            };
-            document.getElementById(
-                "apply-makeup-look-2"
-            ).onclick = function () {
-                // load filter
+            }
+
+            function loadImage(src) {
+                loadCategories();
+                processPhoto(src);
+            }
+
+            async function loadPresetData() {
+                let response = await fetch(
+                    "https://cloud.squidex.io/api/content/virtual-try-on/makeup-presets/"
+                );
+                let data = await response.json();
+                return data.items.map((item) => {
+                    return {
+                        iconIv: item.data.icon.iv[0],
+                        presetIv: item.data.presetfile.iv[0],
+                    };
+                });
+            }
+
+            const ICON_MODELS_MAP = {};
+
+            async function loadIconsAndModels(presetData) {
+                clearResourceContainer();
+                presetData.forEach((item) => {
+                    appendPresetImage(item.iconIv, "icon");
+                    loadModels(item.presetIv).then((src) => {
+                        ICON_MODELS_MAP[item.iconIv] = src;
+                    });
+                });
+            }
+
+            async function loadPresets(category) {
+                let presetData = await loadPresetData();
+                loadIconsAndModels(presetData);
+            }
+
+            function loadPresetThumbs() {
+                let urls = [];
                 fetch(
-                    "https://cloud.squidex.io/api/assets/virtual-try-on/aee93b1f-a211-4d29-9373-02ef57e34b46",
-                    {
-                        method: "GET",
-                        // headers: new Headers({
-                        //     "Authorization": "Bearer " + token
-                        // })
-                    }
+                    "https://cloud.squidex.io/api/content/virtual-try-on/models/"
                 )
-                    .then((response) => response.blob())
-                    .then((blob) => {
-                        var url = window.URL.createObjectURL(blob);
-                        console.log(url);
-                        deepAR.switchEffect(0, "makeup", url, function () {
-                            // effect loaded, reprocess the image
-                            deepAR.processImage(image);
+                    .then((response) => response.json())
+                    .then((modelsData) => {
+                        clearResourceContainer();
+                        modelsData.items.map((item) => {
+                            appendPresetImage(item.data.image.iv[0], "image");
                         });
                     });
-            };
-            document.getElementById(
-                "remove-makeup-filter"
-            ).onclick = function () {
-                // unload filter
-                deepAR.clearEffect("makeup");
-                // effect unloaded, reprocess the image
-                deepAR.processImage(image);
-            };
-            document.getElementById("download-photo").onclick = function () {
-                deepAR.takeScreenshot();
-            };
+            }
+
+            function applyFilter(iconIv) {
+                deepAR.switchEffect(0, "makeup", ICON_MODELS_MAP[iconIv], function () {
+                    deepAR.processImage(image);
+                });
+            }
+
+            // document.getElementById(
+            //     "remove-makeup-filter"
+            // ).onclick = function () {
+            //     // unload filter
+            //     deepAR.clearEffect("makeup");
+            //     // effect unloaded, reprocess the image
+            //     deepAR.processImage(image);
+            // };
+            // document.getElementById("download-photo").onclick = function () {
+            //     deepAR.takeScreenshot();
+            // };
 
             document.getElementById("redirect-video").onclick = function () {
                 location.href = "video.html";
