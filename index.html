@@ -298,6 +298,7 @@
             }
 
             function loadFile(event) {
+                loadCategories();
                 processPhoto(URL.createObjectURL(event.target.files[0]));
             }
 
@@ -462,6 +463,7 @@
             // };
 
             document.getElementById("redirect-video").onclick = function () {
+                // deepAR.startVideo(true);
                 location.href = "video.html";
             };
         </script>
