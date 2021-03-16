@@ -32,7 +32,7 @@
                 background-color: black;
                 -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
                 margin-top: -1px;
-                height: 601px;
+                height: 600px;
                 width: 0px;
             }
 
@@ -42,7 +42,7 @@
             }
 
             #loader-wrapper {
-                width: 500px;
+                width: 400px;
                 height: 600px;
                 background-color: #fff;
                 text-align: center;
@@ -57,7 +57,7 @@
                 width: 90px;
                 height: 90px;
                 margin: auto;
-                background-color: #00f;
+                background-color: #ff00c8;
 
                 border-radius: 100%;
                 -webkit-animation: sk-scaleout 1.5s infinite ease-in-out;
@@ -203,9 +203,10 @@
                         />
                         <img id="output" style="visibility: hidden" />
                     </div>
-                    <div class="category-container" id="category-container">
-
-                    </div>
+                    <div
+                        class="category-container"
+                        id="category-container"
+                    ></div>
                 </div>
                 <div class="middle">
                     <div class="canvas-wraper">
@@ -266,34 +267,33 @@
                 },
             });
 
-            deepAR.onVideoStarted = function () {
-                var loaderWrapper = document.getElementById("loader-wrapper");
-                loaderWrapper.style.display = "none";
-            };
-
             deepAR.downloadFaceTrackingModel("lib/models-68-extreme.bin");
+
+            function showLoadingAnimation() {
+                let loaderWrapper = document.getElementById("loader-wrapper");
+                let canvas = document.getElementById("deepar-canvas");
+                loaderWrapper.style.display = "block";
+                canvas.style.width = "0px";
+            }
+
+            function hideLoadingAnimation() {
+                let loaderWrapper = document.getElementById("loader-wrapper");
+                let canvas = document.getElementById("deepar-canvas");
+                loaderWrapper.style.display = "none";
+                canvas.style.width = "400px";
+            }
 
             var image = new Image();
 
             function processPhoto(url) {
-                // show loading animation
-                var loaderWrapper = document.getElementById("loader-wrapper");
-                loaderWrapper.style.display = "block";
-                var canvas = document.getElementById("deepar-canvas");
-                canvas.style.width = "0px";
+                deepAR.stopVideo();
+                showLoadingAnimation();
 
-                // load image from url
                 image.src = url;
 
                 image.onload = function () {
                     deepAR.processImage(image);
-                    // hide the loading animation
-                    var loaderWrapper = document.getElementById(
-                        "loader-wrapper"
-                    );
-                    loaderWrapper.style.display = "none";
-                    var canvas = document.getElementById("deepar-canvas");
-                    canvas.style.width = "501px";
+                    hideLoadingAnimation();
                 };
             }
 
@@ -445,26 +445,24 @@
             }
 
             function applyFilter(iconIv) {
-                deepAR.switchEffect(0, "makeup", ICON_MODELS_MAP[iconIv], function () {
-                    deepAR.processImage(image);
-                });
+                deepAR.switchEffect(
+                    0,
+                    "makeup",
+                    ICON_MODELS_MAP[iconIv],
+                    function () {
+                        deepAR.processImage(image);
+                    }
+                );
             }
 
-            // document.getElementById(
-            //     "remove-makeup-filter"
-            // ).onclick = function () {
-            //     // unload filter
-            //     deepAR.clearEffect("makeup");
-            //     // effect unloaded, reprocess the image
-            //     deepAR.processImage(image);
-            // };
-            // document.getElementById("download-photo").onclick = function () {
-            //     deepAR.takeScreenshot();
-            // };
+            function switchToVideo() {
+                hideLoadingAnimation();
+                deepAR.startVideo(true);
+                loadCategories();
+            }
 
             document.getElementById("redirect-video").onclick = function () {
-                // deepAR.startVideo(true);
-                location.href = "video.html";
+                switchToVideo();
             };
         </script>
     </body>
